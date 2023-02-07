@@ -1,0 +1,911 @@
+---
+title: "Datapalooza"
+subtitle: "Parte 2: Entendiendo la estructura en R"
+institute: "Pontificia Universidad Católica de Chile"
+date: "Enero 2023"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs      # crea un directorio para bibliotecas
+    css: 
+      # el archivo CSS del tema predeterminado para xaringan
+      - default           # el archivo CSS del tema (nhsr)
+      - rladies-fonts # el archivo CSS de fuentes del tema R-Ladies
+      - primary.css  # archivo CSS personalizado
+    seal: false        # false: permite crear una diapositiva de título personalizada
+    nature:
+      highlightStyle: github   # resalta sintaxis para los bloques de código
+      highlightLines: true     # true: permite resaltar líneas de código
+      countIncrementalSlides: false  # false: diapositivas incrementales no aumentarán la cuenta
+      ratio: "4:3"      # proporción: "16:9" para un tamaño de pantalla ancha
+---
+class: primary, left, bottom, inverse
+background-image: url(media/Diapositiva1.png)
+
+
+<br>
+<br>
+
+# **`r rmarkdown::metadata$title`**
+----
+## `r rmarkdown::metadata$subtitle`
+### `r rmarkdown::metadata$author`
+### `r rmarkdown::metadata$date`
+<br>
+<br>
+
+---
+class: left, middle
+
+# Parte 2: Entendiendo R
+
+----
+.pull-left[
+.left[
+
+]
+
+* [**Funciones y objetos**](#funciones)
+
+* [**Tipos de datos**](#tipos)
+
+* [**Estructuras de datos**](#estructuras)
+
+* [**Vectores**](#vectores)
+
+* [**Matrices**](#matrices)
+
+
+] 
+
+.pull-right[
+.left[
+
+]
+
+* [**Data frame**](#data)
+
+* [**Tibble**](#tibble)
+
+* [**Operadores lógicos**](#logicos)
+
+* [**Importación y exportación de datos**](#Importación)
+
+* [**Taller práctico**](#actividad)
+
+
+] 
+---
+name: funciones
+class: inverse, middle, center
+
+# Funciones y objetos en R
+
+---
+
+# Lógica de Funcionamiento en R
+
+En lo relacionado con el análisis de datos, la lógica de R base es algo anticuada a día de hoy, pero siempre confiable.
+
+.center[<img src="media/funcion2.png" width='500px'>]
+
+<p style='text-align: justify;'> Los <span style="color: #990000;"><b>...</b></span> corresponden a los argumentos que modifican la acción a realizar, dependiendo de la función esta puede o no tener argumentos y estos pueden ser tanto obligatorios como opcionales. </p>
+
+
+---
+# Funciones en R
+
+La funciones son operaciones que están guardadas con un nombre específico en R. 
+
+Hay funciones que requieren **argumentos** (inputs) y otras no. Los argumentos de una función van siempre dentro del paréntesis:
+
+
+```{r, eval = FALSE}
+sqrt(521) 
+getwd()
+Sys.Date()
+```
+
+
+Para ayuda y detalles de la función, anteponemos <b><code>?</code></b> o usamos la función <b><code>help()</code></b>:
+
+```{r, eval=FALSE}
+?sqrt
+help(sqrt)
+```
+
+
+---
+class: inverse
+# Actividad práctica
+
+<b>1.-</b> ¿Qué argumentos reciben las funciones `install.packages()` y `library()`?
+
+--
+
+<b>Respuesta:</b> 
+Podemos revisar la ayuda de la función:
+
+```{r eval = FALSE}
+help(install.packages)
+?library
+```
+
+--
+
+¡Usemosla como debe ser! `library(tidyverse)`:
+
+```{r}
+library(tidyverse)
+```
+
+--
+
+---
+class: inverse
+
+# Actividad práctica
+
+<b>2.-</b> Instalemos algo útil para trabajar <code><b>install.packages("readxl")</b></code>
+
+--
+
+<b>En Acción</b> Este paquete sirve para poder cargar bases de excel y poder utilizarlas para trabajar. Importante poder revisar las funciones que trae y los parámetros que estas aceptan
+
+```{r}
+#install.packages("readxl")
+library(readxl)
+help(read_excel)
+args(read_excel) #sirve para ver cómo está definida la función y qué parámetros acepta
+```
+
+
+---
+name: objetos
+
+# Objetos en R
+
+Un **objeto** es una colección de información indexada, bajo un nombre previamente definido diferenciando mayúsculas de minúsculas.
+
+
+Para asignar o crear un objeto, utilizaremos el operador de asignación: `<-`.
+
+```{r eval = FALSE}
+objeto <- valor
+```
+
+También podemos usar `= ` ó  `->`
+
+
+```{r eval = FALSE}
+objeto = valor
+valor -> objeto
+```
+
+Se recomienda usar `<-`, es fácil de reconocer visualmente y genera menos confusión que el signo `=`. El operador `->` es poco usal y nos genera desorden en nuestro código.
+
+
+Para generar el operador de asignación puedes usar:
+.center[
+## alt **+** - ##
+]
+---
+# Objetos en R
+
+
+* La función `ls()` muestra todos los objetos creados.
+
+* La función  `rm(objeto)` elimina cierto objeto, mientras que `rm(list=ls())` elimina toda la memoria.
+
+* R recordará todos los objetos creados, hasta el momento que cierras la consola, o bien, hasta que elimines la información.
+
+---
+class: inverse
+
+# Actividad práctica
+
+
+1.- Defina un objeto llamado 'numero' asignele un valor numerico:
+
+--
+
+```{r}
+numero <- 256
+```
+
+--
+
+Los nombres nos permiten representar resultados de una manera más sencilla y usarlos así en nuestro código, incluso podemos aplicarles funciones:
+
+--
+
+2.- Defina a la raíz cuadrada de número como 'resultado':
+
+--
+```{r}
+resultado <- sqrt(numero)
+```
+
+--
+
+3.- Imprima en la consola el valor guardado en 'resultado':
+
+--
+
+```{r}
+resultado
+```
+
+---
+
+# Objetos en R
+
+Si el nombre de un objeto ya existe en nuestra sesión, R lo va a sobreescribir. Por ejemplo:
+--
+```{r}
+a <- 5
+b <- a
+a <- 3
+```
+
+.center[
+¿Cuál es el valor de **`a`**?
+]
+
+--
+
+```{r}
+a
+```
+
+--
+.center[
+¿Cuál es el valor de **`b`**?
+]
+
+--
+
+```{r}
+b
+```
+
+---
+# Recomendaciones
+
+
+<ol>
+
+<li>Utilizar un nombre que tenga alguna relación con los datos que contiene el objeto</li>
+
+<li>Evitar caracteres especiales, como ñ, tildes o espacios</li>
+
+<li>Para separar palabras se puede utilizar un guión bajo (proyeccion_enero) o mayúscula inicial (ProyeccionEnero). Lo importante es ser consistente en la opción elegida.</li>
+</ol>
+
+.center[
+<h3> ¡Recuerda que R es sensible a mayúsculas y minúsculas! </h3>
+]
+
+¿Qué pasa al ejecutar el siguiente código?
+
+```{r, eval=FALSE}
+
+polera <- c(254,203,182,50)
+
+mean(Polera)
+	
+sum(poleras)
+```
+
+---
+name: error
+
+# Errores 
+
+La mayoría de los errores que cometemos son por problemas de tipeo: 
+
+<ul>
+<li>Escribimos mal el nombre de una función u objeto. </li>
+<li>Nos falta cerrar un paréntesis. </li>
+<li>Nos falta una coma. </li>
+</ul>
+
+En caso de que falte un paréntesis o una coma, el editor de RStudio nos lo advertirá
+
+<p style='text-align: justify;'>A veces se generan problemas porque olvidamos correr una línea de código o porque sobreescribimos un objeto. En esos casos, lo mejor es reiniciar R y volver a ejecutar el código desde el principio. </p>
+
+.center[<b>¡Recuerda que equivocarse es ~~normal~~ necesario!</b>]
+   
+<b><p style='text-align: justify; color:#23395b ;'>Usen y abusen de Google para poder resolver errores, o también para encontrar nuevos paquetes. La habilidad de buscar correctamente en Google es una habilidad que se está perdiendo. ¡No la desperdicien! </p></b>
+
+
+---
+name: tipos
+class: inverse, middle, center
+
+# Tipos de datos
+
+---
+# Tipos de datos
+
+<p> En R existen distintas clases y tipos de datos. Estos dependen del tipo de información que contengan en su interior. Con las funciones <code class='bold'>class()</code> y <code class='bold'>typeof()</code> se puede preguntar qué tipo de dato es cada elemento. </p>
+
+
+Los principales tipos de datos en R son los siguientes:
+
+| Tipo de dato | Descripción | Ejemplo |
+|---------|---------|---------|
+| `integer` | Números enteros  | -1, 0, 1 |
+| `numeric` | Números reales | -0.5, 1/2, 1 |
+| `character` | Texto | "palabra", "y" |
+| `logical` | Verdadero o Falso | 'TRUE' 'FALSE' | 
+
+
+<p>Hay otros tipos de datos en R, como <code class='bold'>complex</code> (números complejos) y <code class='bold'>raw</code> (datos sin procesar).
+---
+class: inverse, middle
+
+# Estructuras de datos
+
+---
+# Estructuras de datos en R
+
+
+En R los distintos tipos de datos definidos anteriormente se organizan en estructuras.
+
+Las estructuras de datos son **objetos** que contienen datos. 
+
+--
+
+|  Estructura | Instrucción en R | 
+|------:|:-----|
+| Vector | `c()` | 
+| Matriz | `matrix()` | 
+| Array | `array()` | 
+| Data Frame | `data.frame()` | 
+| Lista | `list()` | 
+| Factor | `factor()` | 
+| date | `as.Date()` | 
+| Time Series | `ts()` | 
+
+--
+Cuando trabajamos con R, lo que estamos haciendo es manipular estas estructuras.
+
+---
+# Estructuras de datos en R
+
+<br>
+<br>
+
+.center[
+<img src="media\estructuras.jpg"
+width="625px" 
+/>
+]
+---
+name: vectores
+class:inverse, middle, center
+# Vectores
+---
+# Vectores 
+
+Un vector es un ordenamiento unimensional de datos. Dentro de un vector solo puede existir un tipo de dato. En R, los vectores se definen con el comando <code class='bold'>c()</code> y cada elemento se separa con una coma: 
+
+--
+
+<b class='azul'>Vector numérico</b>
+```{r}
+vector_1 <- c(-1/2, 1, 0.5)
+class(vector_1)
+```
+
+--
+
+<b class='azul'>Vector con letras</b>
+```{r}
+vector_2 <- c("A", "B", "C")
+class(vector_2)
+```
+
+--
+
+.center[**¿Qué tipo de dato será el vector `c(1, "dos", 3)` ?**]
+
+---
+
+### Funciones para generar vectores
+
+En la siguiente tabla, se muestran algunas de las principales funciones usadas para facilitar la creación de vectores en R:
+
+| Función | Descripción | Ejemplo |
+|-----|------|-----|
+| a:b | Genera una secuencia de números naturales entre a y b | `5:10` |
+| seq() | Genera una secuencia de números a un intervalo regular | `seq(from= -5,to=5,by= 0.5)` |
+| rep() | Genera una secuencia de repetición de elementos de un vector base | `rep(c("a","b"),times=3)` |
+| letters | Vector constante con las letras desde la "a" a la "z" en minuscula | `letters` |
+| LETTERS | Vector constante con las letras desde la "A" a la "Z" en mayúscula | `LETTERS` |
+
+---
+
+### Funcionalidades adicionales
+
+Con el comando `length()` se puede extraer el largo de un vector.
+
+Se puede consultar en R si un elemento es o no un vector con el comando <code class='bold'>is.vector()</code>
+
+
+```{r}
+is.vector( c(1, 2, 3) )
+```
+
+De la misma forma, se puede transformar un objeto a un vector con el comando <code class='bold'>as.vector()</code>.
+
+<b>Seleccionar un elemento dentro de un vector</b>
+
+Para seleccionar el elemento de un vector en R se utilizan los corchetes <code class='bold'>[]</code>, de la siguiente forma:
+
+.center[**`objeto[i]`** extrae el i-ésimo elemento del vector llamado *objeto*]
+
+
+---
+name: matrices
+class:inverse, middle, center
+# Matrices
+---
+
+# Matrices 
+
+<p>Una matriz (<code>matrix</code>) es un arreglo de datos en una estructura bi-dimensional, entendidas como filas y columnas. En R, las matrices funcionan como una extensión de los vectores, dado que dentro de una matriz solo puede existir un tipo de dato. Hay muchas formas de generar matrices, la manera más directa es usando el comando <code class='bold'>matrix():</code></p>
+
+.center[ `matrix(vector, ncol = n, n_row = m, byrow = FALSE )` ]
+
+.pull-left[
+```{r}
+matrix(1:9, ncol = 3)
+```
+
+
+]
+
+.pull-right[
+```{r}
+matrix(letters[1:9], ncol = 3)
+```
+]
+
+---
+
+### Concatenación de vectores
+
+Se puede transformar un conjunto de vectores en una matriz con ayuda de los comandos <code class='bold'>cbind()</code> y <code class='rbind()'></code>. El primero, junta vectores de manera vertical (columna), y el segundo de manera horizontal (fila):
+
+```{r}
+v_1 <- 1:5
+v_2 <- LETTERS[1:5]
+```
+
+
+.pull-left[
+<b>Concatenación por columnas (c)</b>
+```{r}
+cbind(v_1, v_2)
+```
+
+
+]
+
+
+
+.pull-right[
+<b>Concatenación por filas (r)</b>
+```{r}
+rbind(v_1, v_2)
+```
+]
+
+---
+
+### Funcionalidades adicionales
+
+<b>Seleccionar elementos de una matriz</b>
+
+En R, los arreglos bi-dimensionales funcionan siempre con el orden (filas, columnas). Utilizando esta lógica, es posible rescatar elementos desde una matriz:
+
+.center[**`nombre_matriz[i, j]`** ~ i=filas, j=columnas]
+
+<b>Ejemplos:</b>
+
+<ul>
+  <li><code class='bold'>nombre_matriz[i,]</code>: Selecciona la i-ésima <b>fila</b> de la matriz.</li>
+  </br> 
+  <li><code class='bold'>nombre_matriz[,j]</code>: Selecciona la j-ésima <b>columna</b> de la matriz.</li>
+  </br>
+  <li><code class='bold'>nombre_matriz[i,j]</code>:  Selecciona el j-ésimo elemento de la i-ésima fila.</li>
+</ul>
+
+<p>El comando <code class='bold'>dim()</code> permite obtener las dimensiones de la matriz. El primer número corresponde al número de filas, el segundo al número de columnas. </p>
+
+<p>Se puede consultar si un objeto es una matriz con el comando <code class='bold'>is.matrix()</code> y se puede transformar un objeto a una matriz con el comando <code class='bold'>as.matrix()</code></p>
+
+---
+name: data
+class:inverse, middle, center
+# Data frame
+---
+# Data frame
+
+Un data frame es un arreglo de datos en una estructura bi-dimensional. A diferencia de una matriz, un data frame puede tener columnas de distintos tipos de datos. En un data frame, las columnas representan variables y las filas representan a individuos u observaciones.
+
+|| Variable 1 | Variable 2 | ... | Variable n |
+|----- | ----- | ----- | ----- | ----- |
+|Observación 1| dato | dato | dato | dato |
+|Observación 2| dato | dato | dato | dato |
+|...| ... | ... | ... | ... |
+|Observación m| dato | dato | dato | dato |
+
+<p>Los data frame en R se pueden generar directamente con el comando <code class='bold'>data.frame()</code> o se pueden transformar otras estructuras definidas. Por ejemplo, una matriz, con el comando <code class='bold'>as.data.frame()</code></p> 
+
+---
+### Creación de un data frame
+
+El comando data.frame() se puede usar de distintas formas:
+
+<p><b>Forma 1</b>: Usar vectores ya creados. En este, todos los vectores deben ser del mismo largo. El nombre de cada vector se guardará como el nombre de cada columna del data frame. </p> 
+
+```{r eval = FALSE}
+var_1 <- c(a1, a1,..., an)
+...
+var_m <- c(z1, z2,..., zm)
+ 
+base_ejemplo <- data.frame(var_1, var_2, ... , var_n)
+```
+
+<p><b>Forma 2</b>: Definir directamente las columnas dentro del dataframe</p>
+
+```{r eval = FALSE}
+base_ejemplo <- data.frame(var_1 = c(a1, a1,..., an),
+                           ...,
+                           var_m = c(z1, z2,..., zm))
+```
+
+
+
+
+---
+class: rladies-fonts, inverse
+
+# Actividad práctica
+
+
+Considere la siguiente tabla: 
+
+| Nombre | Grupo Sanguíneo | Altura (cm) |
+| ------ | --------------- | ----------- |
+| Andrea  | AB | 165 |
+| Bastian | O  | 180 |
+| Camilo  | A  | 158 |
+| Daniela | B  | 170 |
+
+Referencia también abajo:
+
+```{r echo=F}
+tabla <- data.frame(
+  nombre = c("Andrea", "Bastian", "Camilo", "Daniela"),
+  grupo_s = c("AB", "0", "A", "B"),
+  altura_cm = c(165, 180, 158, 170)
+)
+
+tabla
+```
+
+
+
+Defina esta tabla como un data frame de usando las dos formas anteriores.
+
+---
+class: inverse
+# Actividad práctica
+
+### Forma 1
+
+Se definen directamente los vectores dentro del comando <code class='bold'>data.frame()</code>:
+```{r}
+tabla <- data.frame(
+  nombre = c("Andrea", "Bastian", "Camilo", "Daniela"),
+  grupo_s = c("AB", "0", "A", "B"),
+  altura_cm = c(165, 180, 158, 170)
+)
+```
+
+```{r}
+tabla
+```
+
+```{r}
+names(tabla)
+```
+
+
+---
+class: inverse
+# Actividad práctica
+
+### Forma 2 
+
+1.- Se definen las columnas de las matrices en vectores:
+
+```{r}
+nombre <- c("Andrea", "Bastian", "Camilo", "Daniela")
+grupo_s <- c("AB", "0", "A", "B")
+altura_cm <- c(165, 180, 158, 170)
+```
+
+--
+
+2.- Se guarda en el objeto 'tabla' el data frame:
+```{r}
+tabla <- data.frame(nombre, grupo_s, altura_cm)
+tabla
+```
+
+--
+```{r}
+names(tabla)
+```
+
+---
+
+### Selección de observaciones de un data frame
+
+<p>Un data frame funciona igual que una matriz, ya que se puede seleccionar directamente filas y columnas específicas con el uso de corchetes <code class='bold'>[]</code>.</p>
+
+<p>En los data frame, es normal que las variables (columnas) tengan nombre. En R, se pueden usar tales nombres para seleccionar elementos de la base de datos:</p>
+
+<b>Seleccionar variables dado nombre de variables</b>
+```{r eval = FALSE}
+nombre_base$nombre_variable
+nombre_base[["nombre_variable"]]
+```
+
+
+
+<b> Seleccionar observaciones de un data frame </b>
+
+<ul>
+  <li><code class='bold'>base[i,]</code> : Todas las columnas, i-ésima observación (fila).</li>
+  </br>
+  <li><code class='bold'>base[i,j]</code> : i-ésima fila, j-ésima variable (columna).</li>
+  </br>
+  <li><code class='bold'>base[v_filas, v_columnas]</code> : todas las filas que están en <code class='bold'>v_filas</code> y columnas en <code class='bold'>v_columnas</code>.</li>
+</ul>
+---
+name: tibble
+
+class:inverse, middle, center
+# Tibble
+
+
+---
+# Tibble
+
+<p>Los tibbles son data frames, pero tienen características que hacen su manejo más fácil y más acorde con la actualidad. La librería <code class='bold'>tibble</code> pertenece a la librería <code class='bold'>tidyverse</code>, que se verá en profundidad en las próximas clases. Se instalará inmediatamente: </p>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(tibble)
+```
+
+```{r, eval=FALSE}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+<p>Para transformar un data frame o una matriz a un objeto <code>tibble</code>, basta con utilizar el comando <code class='bold'>as_tibble()</code> de la siguiente forma:</p>
+
+```{r, eval=FALSE}
+base_tibble <- as_tibble(base_dataframe)
+```
+
+<p>El comando <code class='bold'>tbl_df()</code> de la librería <code>dplyr</code>, librería presente en <code>tidyverse()</code>, permite transformar directamente un data frame en un tibble.</p>
+
+<p>Dependiendo de cómo se importan las bases de datos externas, es probable que las bases de datos ya estén con formato <code class='bold'>tibble</code>. </p>
+
+---
+name: vectores
+class:inverse, middle, center
+# Operadores lógicos
+---
+# Operadores lógicos
+
+```{r warning = FALSE, echo = FALSE, message = FALSE}
+library(kableExtra)
+library(dplyr)
+a = tibble("Operador" = c("Menor que", 
+                          "Mayor que",
+                          "Menor o igual que",
+                          "Mayor o igual que",
+                          "Igual que",
+                          "Distinto que",
+                          "Intersección",
+                          "Unión",
+                          "Dentro de"),
+           "Código" = c("<",">","<=",">=","==","!=","&","|","%in%"))
+```
+
+<p>En R hay operadores lógicos. Estos permiten realizar preguntas a R, las que serán respondidas como verdadero (<code>TRUE</code>) o falso (<code>FALSE</code>). Algunos operadores básicos son:</p>
+
+.pull-left[
+
+```{r warning=FALSE, echo=FALSE}
+a %>% kbl(align = "lc") %>% kable_styling()
+```
+
+]
+
+--
+
+.pull-right[
+```{r}
+10 > 5
+"Gato" == "gato"
+c("a", "B", "c") %in% letters
+```
+]
+
+---
+
+### Usos de operadores lógicos
+
+<p>Los operadores tienen múltiples usos. Principalmente, se usan para generar condiciones en la creación de funciones y filtrar bases de datos y/o vectores. Utilizando el ejemplo anterior: </p>
+
+```{r}
+tabla
+```
+
+
+<p>Suponga que se quiere seleccionar aquellas filas en donde la altura sea menor a 170 cm. Esto, se puede realizar de la siguiente forma:</p>
+
+```{r}
+tabla[tabla$altura_cm < 170, ]
+```
+
+---
+class: inverse, middle, center
+
+# Importación y exportación de datos
+
+---
+name: Importación
+## Importación y exportación de datos
+
+<p>La importación de una base de datos dependerá básicamente del formato del archivo. Para ello, existen diferentes funciones que permiten llevar a cabo tal procedimiento: </p>
+
+<b>Importar archivos <code>txt</code></b>
+
+```{r eval=F}
+read.table("<Ruta del archivo>", header = TRUE, ... )
+readr::read_csv("<Ruta del archivo>", col_names = TRUE,...)
+```
+
+<b>Importar archivos <code>csv</code></b>
+Dependiendo de cómo esté codificado el archivo csv, hay distintas funciones para importar:
+
+- **`read_csv`** : Si los decimales están con puntos y las variables se separan por comas.
+- **`read_csv2`**: Si los decimales están con comas y las variables se separan por punto y coma (;).
+
+```{r eval=F}
+readr::read_csv("<Ruta del archivo>", col_names = TRUE, ...)
+readr::read_csv2("<Ruta del archivo>", col_names = TRUE, ...)
+```
+
+---
+name: xl
+### Importación de datos
+
+
+<b>Importar archivos <code>excel</code></b>
+
+La librería <code class="bold">readxl</code> tiene múltiples funciones para cargar archivos en formato excel. Un argumento importante de estas funciones es **`sheet`**, en donde se puede indicar cuál hoja se importará. Sus principales funciones son:
+
+```{r eval=F}
+readxl::read_excel("<Ruta del archivo>", col_names = TRUE, ...)
+readxl::read_xls()
+readxl::read_xlsx()
+```
+
+<b>Importar múltiples tipos de archivos</b>
+
+
+El paquete <code>haven</code> contiene multiples funciones para importar archivos de SPSS, STATA y SAS con funciones, tales como: <code class='bold'>read_sas()</code>, <code class='bold'>read_por()</code>, <code class='bold'>read_sav()</code> y <code class='bold'>read_dta()</code>
+
+El paquete <code>rio</code> y su función <code class="bold">import</code> permiten importar numerosos tipos de archivo de formato, incluyendo Excel, SAS, SPSS, STATA, Minitab, Matlab, JSON, etc. Es recomendable su uso si la base a cargar es limpia y no tiene problemas de importación.
+
+```{r eval=F}
+rio::import("<Ruta del archivo>")
+```
+
+
+
+
+---
+class: inverse, middle
+
+# Taller práctico
+
+---
+name: actividad
+class: inverse
+
+# Taller práctico
+
+
+Juguemos con la base de datos `viviendasRM.xlsx`. Esta contiene datos de algunas viviendas ofrecidas en distintas partes de Santiago. La información es principalmente sobre las características de los inmuebles, los precios y la ubicación.
+
+Vamos a trabajar con esto, paso a paso.
+1. Genere una carpeta llamada **datos** en su proyecto de cloud.
+
+2. Guarde la base de datos en esa carpeta.
+
+3. Cargue el archivo en un script de R.
+**Nota:** Puede utilizar *Import Dataset* que se encuentra en la ventana de Environment
+
+4. Asigne a un objeto llamado **df** el conjunto de datos recién cargado.
+
+---
+class: inverse
+
+# Taller práctico 
+
+Juguemos e indaguemos en esta base:
+
+a.  Revise la base de datos. Puede utilizar comandos como `head()` o `View()`.
+
+b. ¿Cuántas comunas distintas hay en la base?. 
+
+c. Nos interesa evaluar el precio medio en UF según la cantidad de habitaciones. 
+  1. Vea cuál es el rango de habitaciones que tiene la base
+  2. Genere una sub-base para cada uno de estos
+  3. Calcule el promedio del valor en UF y también en CLP
+
+d. Realicemos el mismo análisis, pero en recíproco. Analicemos las características de las casas que valen menos de 5mil UF, entre 5mil y 10mil; y las que cuestan más de 10mil UF.
+  1. Genera un sub-base para cada caso
+  2. ¿Cuál es el promedio de su superficie total? ¿Cuánto es su max y mín? ¿Cuánta será la variabilidad?
+  3. Para cada caso, cuente cuántas casas SI tienen estacionamiento
+  4. Para cada caso, ¿Cuál es el porcentaje de casas que SI tienen estacionamiento?
+
+---
+class: primary, center, middle, inverse
+background-image: url(media/Diapositiva3.png)
+
+
+# ¡Gracias!
+<br>
+<br>
+
+## Elías Alvear
+<br> 
+
+[*Nos vemos en Linkedin*](https://www.linkedin.com/in/el%C3%ADas-alvear-binimelis-360831135/)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

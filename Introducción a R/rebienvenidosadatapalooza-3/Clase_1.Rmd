@@ -1,0 +1,781 @@
+---
+title: <span style="color:white"> Datapalooza - Primeros Pasos en R </span>
+subtitle: "Parte 1: Conociendo R"
+author: "Data Science UC"
+institute: "Pontificia Universidad Católica de Chile"
+date: "Enero 2023"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs      # crea un directorio para bibliotecas
+    css: 
+      # el archivo CSS del tema predeterminado para xaringan
+      - default      # el archivo CSS del tema (nhsr)
+      - rladies-fonts # el archivo CSS de fuentes del tema R-Ladies
+      - primary.css  # archivo CSS personalizado
+    seal: false        # false: permite crear una diapositiva de título personalizada
+    nature:
+      highlightStyle: github   # resalta sintaxis para los bloques de código
+      highlightLines: true     # true: permite resaltar líneas de código
+      countIncrementalSlides: false  # false: diapositivas incrementales no aumentarán la cuenta
+      ratio: "4:3"      # proporción: "16:9" para un tamaño de pantalla ancha
+---
+
+class: primary, left, bottom, inverse
+background-image: url(media/Diapositiva1.png)
+
+<!-- .inverse { -->
+<!--   background-color: #131010; -->
+<!--   color: #d6d6d6; -->
+<!--   text-shadow: 0 0 20px #333; -->
+<!-- } -->
+
+
+<!-- .left[<img src="media/logo.png" style="width: 40%" />] -->
+
+<br>
+<br>
+
+# **`r rmarkdown::metadata$title`**
+----
+## `r rmarkdown::metadata$subtitle`
+### `r rmarkdown::metadata$institute`
+### `r rmarkdown::metadata$date`
+<br>
+<br>
+
+---
+class: left, middle
+
+# Parte 1: Introducción a R
+
+----
+
+.pull-left[
+.left[
+
+* [**Recomendaciones iniciales**](#rec)
+
+* [**Introducción**](#intro)
+
+* [**R ---> Posit**](#erre)
+
+* [**Directorios de trabajo y proyectos**](#proyectos)
+
+]
+
+] <!--end of left-column-->
+
+.pull-right[
+.left[
+
+* [**Paquetes**](#paquetes)
+
+* [**Cálculos**](#calculos)
+
+* [**Actividades prácticas**](#practica)
+
+* [**Referencias y material complementario**](#adios)
+]
+
+] <!--end of right-column-->
+
+---
+name: rec
+class: inverse, center, middle
+
+# Recomendaciones Iniciales
+
+---
+# Recomendaciones Iniciales
+
+
+- Trabajaremos en un script de R, tenganlo a mano, este será su cuadernillo de apuntes.
+
+- Mente abierta. Si no han tenido experiencia de código, es importante estar dispuestos a algo nuevo, recuerden que esto es como aprender un nuevo lenguaje.
+
+- Paciencia jovenes Padawans. Ya sea que conozcan algo desde antes, o sea algo nunca antes visto, tengan paciencia para asimilar todo.
+
+- ¡Quiero dudas! No tengan miedo de preguntar o de ir más allá buscando cosas.
+
+- Si pueden tener más de una pantalla, genial. Esta recomendación aplica también al mundo laboral. Esto te permitirá ver al mismo tiempo las clases o guías y ejecutar el código.
+
+.center[
+<img src="media/pantallas.png" width="300px">
+]
+
+---
+name: intro
+class: inverse, center, middle
+
+# Introducción
+
+---
+# ¿Qué es R?
+
+.center[<img src="media/r_software.jpeg">]
+
+.center[
+Explicación simple de un blog publicado en [Unir](https://www.unir.net/ingenieria/revista/lenguaje-r-big-data/), describiendo lo que es R y su uso en desafíos de Big Data.
+]
+
+---
+# ¿Qué es R?
+
+.center[<img src="media/blog_r.png">]
+
+
+
+---
+
+# Estadísticos en la industria 
+
+.center[
+<img src="media/industry_statisticians.png"
+width="650px"
+/>]
+
+.center[
+Datos de la industria en USA, publicado por  [Bureau of labor](https://www.bls.gov/oes/current/oes152041.htm) mostrando las industrias donde trabajan principalmente.
+]
+
+---
+
+# Data Scientist en la industria
+
+.center[<img src="media/industry_data_science.png"
+width="650px"
+/>]
+
+.center[
+Datos de la industria en USA, publicado por  [Bureau of labor](https://www.bls.gov/oes/current/oes152041.htm) mostrando las industrias donde trabajan principalmente.
+]
+
+---
+# Flujo de Trabajo
+
+.center[<img src="media/flujo.png">]
+
+.center[
+Ilustración por [Allison Horst](https://github.com/allisonhorst) basada en el esquema de flujo del libro R for Data Science de  Grolemund & Wickham.
+]
+
+---
+
+# Flujo de Trabajo (realista)
+
+.center[<img src="media/workflow.png">]
+
+---
+
+# Herramientas y software para Data Science
+.center[<img src="media/programas.png">]
+.pull-right[.center[¡Entre otros!]]
+
+---
+
+# ¿Por qué R?
+
+
+--
+
+* ### Gratuito y de código abierto.
+
+--
+
+* ### Herramienta estadística poderosa, hecha por y para estadísticos.
+
+--
+
+* ### Eficiente y fácil de usar.
+
+--
+
+* ### Integración con otros sistemas.
+
+
+--
+
+* ### Sólida y amplia comunidad mundial.
+
+--
+
+* ### Muchas más...
+
+---
+# Ejemplos...
+
+### Modelamiento y análisis estadístico 
+
+.center[
+<img src="media\modelos.jpg"
+width="650px" 
+/>]
+
+
+
+---
+# Ejemplos...
+
+### Dashboards avanzados
+.center[
+<img src="media\flexdash_example.png"
+width="650px" 
+/>]
+
+Más ejemplos en [Flexdashboards](https://rstudio.github.io/flexdashboard/articles/examples.html).
+
+---
+# Ejemplos...
+
+### Creación de documentos, presentaciones e informes automatizados.
+
+.pull-left[
+<img src="media\rmark.png"
+width="350px" 
+/>
+]
+.pull-right[
+<img src="media\clase.jpg"
+width="350px" 
+/>
+]
+
+Más información en [RMarkdown](https://rmarkdown.rstudio.com/).
+
+---
+# Ejemplos...
+
+### Libros y libros electrónicos a partir de documentos de R Markdown.
+
+.center[
+<img src="media\books.jpg"
+width="500px" 
+/>]
+
+
+Más información en [bookdown](https://bookdown.org/).
+
+
+---
+# Ejemplos...
+
+### Creación de aplicaciones web interactivas
+
+.center[
+<img src="media\shiny.png"
+width="650px" 
+/>
+]
+Más ejemplos en el siguiente [Link](https://vac-lshtm.shinyapps.io/ncov_tracker/?_ga=2.214360607.962854305.1636233869-1349136895.1635988606)
+
+
+
+
+---
+name: erre
+class: inverse, center, middle
+
+# R ---> Posit
+
+
+
+---
+
+# R y RStudio
+
+.pull-left[
+.center[
+
+<img src="media/r.png" height="150px" width="300px">
+
+<h3 align="center"> R </h3>
+
+<p style='text-align: justify;'>Es un lenguaje y entorno para computación estadística y gráficos. En este entorno se implementan  técnicas estadísticas y se extiende muy fácilmente a través de paquetes. Está disponible  como software libre. </p>
+]
+]
+
+.pull-right[
+.center[
+<img src="media/rtudio.png" align="center" height="150px" width="300px">
+
+<h3 align="center"> RStudio </h3>
+
+<p style='text-align: justify;'>Es un entorno de desarrollo integrado (IDE) para R. Incluye varios elementos que facilitan las tareas durante el flujo de trabajo. </p>
+
+]
+]
+---
+
+# Instalación (Video)
+
+
+
+.left[En el siguiente video se puede ver el paso a paso de donde descargar e instalar R y RStudio:]
+
+.center[
+<video height="300" controls>
+  <source src="media/instalacion.mp4" type="video/mp4">
+</video>
+]
+
+.left[Los links de descargas se pueden encontrar a continuación:] 
+
+- [Descargar R](https://cran.r-project.org/)
+- [Decargar RStudio](https://www.rstudio.com/products/rstudio/download/)
+
+
+
+
+
+---
+# R
+
+Así se ve R:
+
+.center[
+<img src="media/img1.png" height='350px'>
+]
+
+
+Tenemos una ventana que corresponde a la **consola** y otra que es el **editor** o **script**.
+
+---
+# RStudio
+
+Así se ve RStudio:
+
+.center[
+<img src="media/img2.png" height='300px'>
+]
+
+
+Tenemos varios espacios de trabajo dispuestos en 3 paneles:
+<ul>
+<li><span style="color: red;">  Consola .</span> </li>
+<li><span style="color: blue;">  Environment  </span> (ambiente de trabajo). </li> 
+<li><span style="color: green;">  Panel de visualización y ayuda. </span> </li>
+</ul>
+---
+
+#Posit
+
+.center[
+<img src="media/posit_intro.png" height='350px'>
+]
+
+Pueden ver más información entrando al sitio directo de [Posit](https://posit.co/).
+
+---
+# PositCloud
+
+.pull-left[
+
+<p style='text-align: justify;'>
+Si no queremos/podemos instalar R en nuestros equipos, tenemos la opción de usar su versión en la nube, llamada, a día de hoy [PositCloud](https://posit.cloud/)
+
+A diferencia de utilizar el software directo en el computador, para empezar a trabajar con Cloud, se requiere crear un <b>proyecto</b>.
+
+<p style='text-align: justify;'>
+El plan gratuito es suficiente para el trabajo que realizaremos en este curso
+]
+
+.pull-right[
+<img src="media/posit1.png" height='300px'>
+]
+
+---
+# PositCloud
+Así se ve el menú de PositCloud, mostrando los Workspaces y también los múltiples proyectos que tendremos en cada espacio de trabajo:
+
+.center[
+<img src="media/posit3.png" height='300px'>
+]
+
+---
+
+#Proyecto en Cloud
+
+.center[
+<img src="media/img2.png" height='300px'>
+]
+
+Tenemos varios espacios de trabajo dispuestos en 3 paneles:
+<ul>
+<li><span style="color: red;">  Consola.  </span> </li>
+<li><span style="color: blue;">  Environment  </span> (ambiente de trabajo). </li> 
+<li><span style="color: green;">  Panel de visualización y ayuda. </span> </li>
+</ul>
+
+---
+# Personalización
+
+<p style='text-align: justify;'> Un aspecto importante de RStudio y RStudioCloud es que podemos personalizar la apariencia de nuestro entorno. Como estaremos expuestos a muchas horas de programación es recomendable cambiar el tema predeterminado a uno oscuro, esto se hace en: <b><code style="color: white;">Tools > Global Options > Appearence </code></b> </p> 
+
+
+.center[ <img src="media/cobalt.png" height='375px'> ]
+
+
+---
+class: inverse
+
+# Actividad práctica
+
+
+  1. Abre RStudio o RStudioCloud.
+  
+  2. Escribe (Copia y Pega) en la consola el siguiente código y presiona ** Enter**
+  
+```{r, results='hide'}
+print("Hola R")
+paste("Hola", "R", sep=" ")
+```
+
+--
+Al hacerlo, obtendrás en la consola lo siguiente despues de cada ejecuión:
+```{r,echo=FALSE}
+print("Hola R")
+```
+
+--
+
+Ahora teclea la secuencia `Ctrl+L` / `Cmd+L` ¿Qué ocurrió?
+
+
+---
+# Script (archivo .R)
+
+
+Un script es un editor de texto en donde escribimos el código que queremos conservar.
+
+Para crear un nuevo script podemos hacer cualquiera de estas opciones:
+
+<ul>
+<li> Click en <b><code>File > New File > R Script</b></code></li> 
+<li> Teclear <b><code>Ctrl/Cmd + Shift + N</b></code></li>
+</ul>
+
+.center[
+<img src="media/script.png" height='275px'>
+]
+
+Ahora tenemos cuatro paneles, el 	<span style="color: orange;">script</span> aparece en el bloque de la esquina superior izquierda.
+
+
+---
+
+# Script (archivo .R)
+
+Para ejecutar (“correr”) código en el script de R, tenemos distintas opciones:
+
+<ul>
+<li><b><code>Ctrl/Cmd + Enter</code></b>  →  Ejecutar línea de código/expresión seleccionada</li> 
+<li><b><code>Ctrl/Cmd + Shift + N</code></b>  →  Ejecutar todo el código (source)</li>
+</ul>
+
+<p style='text-align: justify;'>Para guardar nuestro script podemos teclear <b><code>Ctrl + S</code></b> o hacer click en el ícono de guardar que está sobre el script, esto guardará un archivo .R con el nombre que le asignemos.</p>
+
+<p style='text-align: justify;'>En RStudio tenemos <b>diagnóstico de errores</b> en la sintáxis de código y <b>autocompletado</b>: </p>
+
+.pull-left[.center[   Diagnóstico de errores]]
+.pull-right[.center[Autocompletado]]
+.center[
+<img src="media/diag-auto.png" width='600px'>]
+
+---
+
+# Comentarios y Secciones
+
+<p style='text-align: justify;'> En R podemos comentar lineas de código anteponiendo el símbolo <b>#</b>, esto nos permite ordenar nuestro código, hacer descripciones de que estamos ejecutando o guardar código que no queramos ejecutar: </p>
+
+```{r, eval=FALSE}
+### Este es un comentario de R, puedes usarlo para poner títulos!
+
+5+5 ## También para comentar despúes de operaciones/código! 
+
+# print("Diplomado en Data Science UC")
+```
+
+Tambien uno puede comentar una o múltiples líneas seleccionando el código y tecleando **`Ctrl/Cmd + Shift + C`**.
+ 
+<p style='text-align: justify;'>Finalmente, la secuencia <b><code>Ctrl/Cmd + R</code></b> nos permite seccionar fácilmente nuestro código. Al teclearlo aparecerá una ventana emergente donde podemos ingresar el nombre de la sección. </p>
+
+
+```{r, eval=FALSE}
+# Sección 1:  --------------------------------------------------------
+```
+
+---
+class: inverse
+
+# Actividad práctica
+
+<ol>
+  <li>Crea un nuevo script</li>
+  <li>Guárdalo con el nombre "Sesion1"</li>
+  <li>Añade una sección con tu nombre (<b><code style="color: white;">Ctrl/Cmd + R</code></b>)</li>
+  <li>Copia, pega y ejecuta este código en el script:</li>
+</ol>
+
+```{r,eval=FALSE}
+poleras <- c(254,203,182,50)
+meses <- c("Ene", "Feb", "Mar", "Abr")
+min(poleras)
+plot(poleras)
+barplot(poleras, names.arg = meses, col="orange")
+
+```
+
+---
+class: inverse, middle
+
+# Directorios de trabajo y proyectos
+
+---
+name: proyectos
+
+# Directorios de trabajo
+
+El directorio de trabajo es donde R:
+<ul>
+<li> Busca los arcivos que le pedimos leer.</li>
+<li> Coloca los archivos que le pedimos guardar.</li>
+</ul>
+Las rutas y directorios pueden causar complicaciones principalmente porque se escriben de manera diferente según el sistema operativo y porque es muy difícil que alguien más tenga la misma configuración de directorios que nosotros.
+
+Ejecuta el código: **`getwd()`** para conocer tu directorio de trabajo actual.
+
+---
+# Proyectos de RStudio
+
+<p style='text-align: justify;'>Durante nuestro flujo de trabajo lo ideal es mantener todos los archivos relacionados a un análisis en un mismo lugar, es por esto que trabajaremos con los Proyectos de RStudio. Trabajar con proyectos es una buena práctica que nos ahorrará muchos dolores de cabeza. </p>
+
+En el siguiente video se muestra como crear un proyecto:
+
+.center[
+<video height="250" controls>
+  <source src="media/proyecto.mp4" type="video/mp4">
+</video>
+]
+
+---
+class: inverse
+
+# Actividad práctica
+
+<ol>
+  <li>Crea un nuevo proyecto para esta clase, llámalo ProyectoClase1</li>
+  <li>Abre el proyecto y ejecuta el siguiente código <b><code style="color: white;">getwd()</code></b></li>
+  <li>Crea un nuevo script y ejecuta el siguiente código:</li>
+</ol>
+
+```{r,eval=FALSE}
+poleras <- c(254,203,182,50)
+meses <- c("Ene", "Feb", "Mar", "Abr")
+min(poleras)
+plot(poleras)
+barplot(poleras,names.arg = meses,col="orange")
+
+```
+--
+
+Ahora crea una carpeta dentro de tu proyecto llamada datos y ejecuta el siguiente código.
+
+```{r,eval=FALSE}
+write.csv(cbind(meses, poleras),"datos/poleras.csv")
+read.csv("datos/poleras.csv")
+```
+
+---
+class: inverse, middle
+# Paquetes de R
+
+---
+name: paquetes
+
+# Paquetes de R
+
+
+
+.pull-left[
+<p style='text-align: justify;'>Para hacer efectiva la actualización del software, y basado en el foco académico, R utiliza librerías como conjunto de funciones, datos y documentación que denominaremos paquetes o packages. </p>
+
+<p style='text-align: justify;'>Cuando iniciamos R se carga solo un conjunto de funciones, datos y documentación que se conoce como <b>R Base</b>.<p> 
+
+<p style='text-align: justify;'>Para extender las posibilidades de <b>R Base</b> tenemos que instalar otros paquetes.<p>
+
+
+]
+
+.pull-right[
+.center[
+<img src="media\rstudiopackages.png"
+width="225px" 
+/>
+]]
+
+---
+# Paquetes de R
+
+<br/>
+
+.center[
+### A la fecha de hoy, el total de packages disponibles en  el [CRAN](https://cran.r-project.org/web/packages/) de R es: 
+
+
+## 18.407
+]
+
+---
+# Paquetes de R
+
+Los packages se pueden instalar directamente desde el software o descargarlos de forma manual, esto último se puede hacer desde dos fuentes: 
+
+
+.pull-left[
+### CRAN 
+**Comprehensive R Archive Network**
+
+<p style='text-align: justify;'>Es el repositorio oficial de paquetes de R. 
+Para estar acá los paquetes deben ser aprobados.</p>
+
+```{r, eval=F}
+install.packages("nombrepaquete")
+```
+]
+
+.pull-right[
+### GitHub
+
+<p style='text-align: justify;'>Plataforma para desarrollo de software. Muchos paquetes solo se comparten por acá.
+En Github también podemos acceder a la versión en desarrollo de paquetes que están en CRAN.</p>
+
+```{r, eval=F}
+install.packages("remotes")
+remotes::install_github("usuario/paquete")
+```
+]
+
+<p style='text-align: justify;'>Los paquetes se instalan solo una vez en nuestro equipo (pero se deben actualizar cada cierto tiempo).</p>
+
+
+---
+# Paquetes de R
+
+<p style='text-align: justify;'>Para usar las funciones y datos contenidos en un paquete tenemos que “activarlo” en nuestra sesión de R:</p>
+
+```{r eval = FALSE}
+library(nombrepaquete)
+```
+
+Luego de esto, aparecerán disponibles en nuestra sesión las funciones de ese paquete.
+
+
+<p style='text-align: justify;'> Hay tantos paquetes en R que a veces pueden existir múltiples funciones con el mismo nombre, si tenemos ambos paquetes cargados esto puede causar problemas en nuestro código. Podemos especificar de qué paquete viene una función usando <code>::</code> de la siguiente forma:</p>
+
+```{r eval = FALSE}
+nombrepaquete::nombrefuncion
+```
+
+
+
+
+---
+class: inverse
+# Actividad Práctica
+
+Instalemos el paquete **tidyverse**
+
+```{r eval = FALSE}
+ install.packages("tidyverse")
+```
+
+
+<br/>
+
+Para activar el paquete usamos:
+```{r eval = FALSE}
+ library(tidyverse)
+```
+
+
+---
+name: calculos
+class:inverse, middle
+# Cálculos en R
+
+---
+# Cálculos en R
+
+
+R se puede usar como una calculadora.  
+Algunas operaciones que podemos realizar son: 
+
+
+|   | Operación | 
+|------:|:-----|
+| + | suma | 
+| - | resta | 
+| * | multiplicación | 
+| / | división | 
+| %/% | división entera| 
+| ^ | potencia | 
+| sqrt() | raíz cuadrada | 
+| log() | logaritmo base e | 
+| exp() | exponencial| 
+| abs() | Valor Absoluto| 
+
+
+---
+name: practica
+class: inverse
+# Actividad práctica
+
+<b>Calcule en R </b>
+
+$a.- ~~~ 2 + 4 \times 5 - e^3$
+
+
+$b.- ~~~ \log(5) + \frac{\pi}{\sqrt{5}}$
+
+--
+
+<b>Solución</b>
+
+```{r}
+2 + (4*5) - exp(3)
+log(5) + pi/sqrt(5)
+```
+]
+
+---
+name: adios
+
+# Referencias y Material Complementario
+
+
+1. [**R para Ciencia de Datos**](https://es.r4ds.hadley.nz/) : Libro en línea, en español.
+
+2. [**RStudio cheatsheets**](https://rstudio.com/resources/cheatsheets/) : “Torpedos”; en la parte inferior de la página hay versiones en español disponibles.
+
+3. [**RStudio Primers**](https://rstudio.cloud/learn/primers): Ejercicios interactivos;  en inglés.
+
+4. [**Hands-on Programming with R**](https://rstudio-education.github.io/hopr/) : Libro en línea de introducción a la programación en R que no requiere conocimientos previos; en inglés.
+
+
+
+
+---
+class: primary, center, middle, inverse
+background-image: url(media/Diapositiva3.png)
+
+
+# ¡Gracias!
+<br>
+<br>
+
+## Elías Alvear
+<br> 
+
+[*Nos vemos en Linkedin*](https://www.linkedin.com/in/el%C3%ADas-alvear-binimelis-360831135/)
+
+
